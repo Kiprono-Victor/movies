@@ -1,0 +1,70 @@
+﻿@model MOVIEW.Models.Register
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row" style="margin-top:24px">
+
+    <div class="col-lg-4 col-md-4 col-sm-4  "></div>
+
+    @using (Html.BeginForm("LoginUser", "Home", FormMethod.Post, new { role = "form" }))
+    {
+
+       
+            
+                <div class="button_classic shaddo p-5">
+                    <h4 style="text-align:center" class="title_font">Please log in to continue</h4>
+
+                    <form asp-action="Create" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Username" class="control-label"></label>
+                            <input asp-for="Username" placeholder="Enter Username" class="form-control custome_input " required />
+                            <span asp-validation-for="Username" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Password" class="control-label"></label>
+                            <input asp-for="Password" placeholder="Enter Password" class="form-control custome_input " required />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        
+                        
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-default btn-sm btn-outline-warning ml-3 search2 "><i class="fa fa-un" aria-hidden="true"></i>&nbsp;Login</button>
+                        </div>
+                    </form>
+                </div>
+            
+
+
+        <div style="padding:8px;">
+
+            @if (TempData["emptyfields"] != null)
+            {
+                <div class="alert alert-danger">
+                    <strong>Error!..</strong>@TempData["emptyfields"]
+                </div>
+            }
+            else
+            {
+
+            }
+            @if (TempData["wrong"] != null)
+            {
+                <div class="alert alert-danger">
+                    <strong>Error!..</strong>@TempData["wrong"]
+                </div>
+            }
+            else
+            {
+
+            }
+        </div>
+
+
+    }
+</div>
+
+    <div class=" col-lg-4 col-md-4 col-sm-4"></div>
+

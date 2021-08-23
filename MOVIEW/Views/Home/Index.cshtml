@@ -1,0 +1,123 @@
+﻿@model IEnumerable<MOVIEW.Models.Movies>
+@{
+    ViewData["Title"] = "Home Page";
+
+}
+<h6 style="text-align:center;color:#abb2b9"> Movies By Category</h6><hr />
+
+
+<div class=" parent_div">
+    <div class="text-center child ">
+        <table>
+            <tr>
+                <td>
+                    <img src="~/Images/movies.jpg" class="image_div" />
+                </td>
+                <td class="color_text">
+                    Action
+                </td>
+            </tr>
+        </table>
+    </div>
+    @foreach (var x in ViewBag.Json)
+    {
+
+        <div class="text-center child">
+            <table>
+                <tr>
+                    <td>
+                        <img src="~/Images/movies.jpg" class="image_div" />
+                    </td>
+                    <td class="color_text">
+                        @x.genre
+                    </td>
+                </tr>
+            </table>
+        </div>
+    }
+
+</div>
+<hr />
+@*<link href="~/css/site.css" rel="stylesheet" />*@
+
+@*<div class="row">
+    <div class="col-lg-4 text-center">
+        </div>
+    <div class="col-lg-4 text-center p-3">
+        <div class="search-container">*@
+@*<form asp-action="index"  asp-controller="Home">
+        <div class="input-group ">
+            <input type="text" placeholder="Search by name or category" name="search" class="form-control">
+            <div class="input-group-prepend">
+            <button type="submit" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i>Search</button>
+        </div>
+        </div>
+
+    </form>*@
+
+@if (@ViewBag.count != null)
+{
+
+    <H4>Found &nbsp;@ViewBag.count &nbsp; movies.</H4>
+}
+@*</div>*@
+
+
+
+@*</div>*@
+@*</div>*@
+
+<div class="container-fluid text-center">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            // var image = Model.FirstOrDefault(x => x.Property_id == item.id);
+            <div class="col-md-3 col-6 p-1">
+                <div class="product-grid img-thumbnail  p-0" style="border-radius:10px;border:none;background-color:#1c2833">
+                    <div class="product-image" style="padding:0px;border-radius:10px;">
+
+                        <a href="#" class="image">
+
+
+                            <img class="pic-1 img-fluid" onerror="this.src='Images/placeholder-image.png'" src="/images/@item.strimageurl " style="height:150px;width:100%;border-top-left-radius:10px;border-top-right-radius:10px;">
+
+                        </a>
+                        <span class="product-discount-label">@item.strMovieName</span>
+
+                    </div>
+
+                    <div class="product-content text-left product1">
+                        @*<ul class="rating">
+                                <li class="fas fa-star"></li>
+                                <li class="fas fa-star"></li>
+                                <li class="fas fa-star"></li>
+                                <li class="far fa-star"></li>
+                                <li class="far fa-star"></li>
+                            </ul>*@
+
+                        <small>
+
+                            <i class="fa fa-map-marker"></i>&nbsp;@item.strPrice
+                        </small>
+                        <small>
+                            <br /><i class="fa fa-eye"></i>&nbsp;@item.strDescription
+                        </small>
+                        <table>
+                            <tr>
+
+                                <td>
+                                    <a asp-action="Details" asp-route-id="@item.strId" class="btn btn-default btn-sm btn-outline-warning ml-3 search2 ">More details&nbsp;<i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Single Property -->
+
+        }
+    </div>
+</div>

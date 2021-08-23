@@ -1,0 +1,52 @@
+﻿@model MOVIEW.Models.Movies
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<div class="row">
+    <div class="col-lg-4">
+    </div>
+    <div class="col-lg-4">
+        <div class="button_classic shaddo p-3">
+            <h4 style="text-align:center" class="title_font">Upload Movie</h4>
+
+            <form asp-action="Create" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="strMovieName" class="control-label"></label>
+                    <input asp-for="strMovieName" placeholder="Enter Movie Name"class="form-control custome_input" />
+                    <span asp-validation-for="strMovieName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="strPrice" class="control-label"></label>
+                    <input asp-for="strPrice" placeholder="Enter Price"class="form-control custome_input" />
+                    <span asp-validation-for="strPrice" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="strDescription" class="control-label"></label>
+                    <input asp-for="strDescription"    placeholder="Enter Description"class="form-control custome_input" />
+                    <span asp-validation-for="strDescription" class="text-danger"></span>
+                 
+                </div>
+                <div class="form-group">
+                    <label asp-for="ImageFile" class="control-label"></label>
+                    <input asp-for="ImageFile" accept="image/*" class="form-control " />
+                    <span asp-validation-for="ImageFile" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-default btn-sm btn-outline-warning ml-3 search2 "><i class="fa fa-upload" aria-hidden="true"></i>&nbsp;Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+<div class="col-lg-4"></div>
