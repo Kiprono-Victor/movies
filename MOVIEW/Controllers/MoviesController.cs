@@ -140,7 +140,7 @@ namespace MOVIEW.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(movies);
+            return View();
         }
 
         // GET: Movies/Delete/5

@@ -1,45 +1,111 @@
-﻿@model MOVIEW.Models.Movies
-@{
-    ViewData["Title"] = "Details";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿
+<div class="back_details container-fluid " style="background:linear-gradient(0deg, rgba(255, 0, 150, 0.3), rgba(255, 0, 150, 0.3)), url(@ViewBag.backdrop_path ) ;
+  background-size:cover;">
+    <h1 style="color:white;text-align:center">@ViewBag.Single_movie.title</h1>
 
-<h1 style="color:white;text-align:center">Movies Details</h1>
+    <div style="color:white">
 
-<div style="color:white">
-  
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            
-        </dt>
-        <dd class="col-sm-10">
-            <img style="border-radius:15px;height:300px" class="pic-1 img-fluid" src="/images/@Model.strimageurl ">
-        </dd>
-        <dt class="col-sm-2">
-            @*@Html.DisplayNameFor(model => model.strMovieName)*@
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.strMovieName)
-        </dd>
-        <dt class="col-sm-2">
-            @*@Html.DisplayNameFor(model => model.strPrice)*@
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.strPrice)
-        </dd>
-        <dt class="col-sm-2">
-            @*@Html.DisplayNameFor(model => model.strDescription)*@
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.strDescription)
-        </dd>
-    </dl>
-</div>
-<div>
-    
-    <a asp-action="Index" class="btn btn-light btn-sm button_classic shaddo btn-sm offset-2"><i class="fa fa-backward"></i>&nbsp;Back</a>
-    <button value="Upload" class="btn-light btn-sm button_classic shaddo btn-sm offset-2" style="margin-top:4px"><i class="fa fa-shopping-cart "></i>&nbsp;Add to cart</button>
+        <hr />
+        <div class="row ">
+            <div class="col-sm-2">
+                <img style="border-radius:15px;height:300px" class="pic-1 img-fluid" src="@ViewBag.image ">
+            </div>
+            <div class="col-sm-10">
+                Rates: &nbsp;@ViewBag.Single_movie.vote_average<br />
+                Date released: &nbsp;@ViewBag.Single_movie.release_date<br />
+                Description:&nbsp;@ViewBag.Single_movie.overview<br />
+                Original Language:&nbsp;@ViewBag.Single_movie.original_language<br />
+                Origin Country:&nbsp;@ViewBag.Single_movie.production_companies[1].origin_country
+            </div>
 
-</div>
+
+        </div>
+        @*<div class="row">
+                    <div class="col-lg-4"></div>
+                    <div class="col-lg-8">
+                        <table style="border:2px #f39c12 solid;">
+                            <tr>
+                                <td class="p-4" style="font-size:30px;"><i class="fa fa-share-alt" aria-hidden="true"></i></td>
+                                <td class="p-4" style="font-size:30px;"><i class="fa fa-gratipay" aria-hidden="true"></i></td>
+                                <td class="p-4" style="font-size:40px;"><i class="fa fa-eye" aria-hidden="true"></i></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>*@
+        <div class=" row  ">
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4 share_button">
+                <table class="w-100 ">
+                    <tr>
+                        <td>
+                            <button class="share_icons"><i class="fa fa-whatsapp  " aria-hidden="true"></i></button>
+                        </td>
+                        <td>
+                            <button class="share_icons"><i class="fa fa-twitter   " aria-hidden="true"></i></button>
+                        </td>
+                        <td>
+                            <button class="share_icons"><i class="fa fa-facebook-official " aria-hidden="true"></i></button>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="col-lg-4"></div>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <button type="submit" class="btn btn-default btn-sm btn-outline-warning ml-3 addtocart mb-2"><i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;Add To Cart</button>
+            }
+            else
+            {
+                <button type="submit" data-toggle="modal" data-target="#myModal" class="btn btn-default btn-sm btn-outline-warning ml-3 addtocart mb-2"><i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;Add To Cart</button>
+            }
+
+
+        </div>
+    </div>
+    <div  class="modal fade " id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content border1  ">
+
+                <!-- Modal Header -->
+                <div class="modal-header modal2 border-0 border2 " >
+                    <table>
+                        <tr>
+                            <td><img src="~/Images/undraw_Mobile_login_re_9ntv (2).png" class="image_login" /></td>
+                            <td>Please Log in First To Continue</td>
+                            <td></td>
+                        </tr>
+                    </table>
+                    <button type="button" style="color:red" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body modal1 border-0 ">
+                   You Will Be Allowed To Place Your Orders when You Log in.
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer modal1 border-0 footer_footer">
+                    <a asp-action="login" asp-controller="home"  class="btn btn-default btn-sm btn-outline-warning ml-3 search2" ><i class="fa fa-unlock-alt" aria-hidden="true"></i>&nbsp;Login</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    @*<div >*@
+
+    @*<a asp-action="Index"  style="margin-left:150px" class="btn btn-default btn-sm btn-outline-warning search2 "><i class="fa fa-angle-double-left"></i>&nbsp;Back</a>
+        <button value="Upload"style="margin-left:450px" class="btn btn-default btn-sm btn-outline-warning  search2 "><i class="fa fa-shopping-cart"></i>&nbsp;Add To Cart</button>*@
+
+    @*</div>*@
+
+
+
+
+
+
+
+
 

@@ -15,5 +15,6 @@ namespace MOVIEW.Context
         }
         public DbSet<Register> registers { get; set; }
         public DbSet<MOVIEW.Models.Movies> Movies { get; set; }
+        public DbSet<MOVIEW.Models.Price> Order_Db { get; set; }
     }
 }

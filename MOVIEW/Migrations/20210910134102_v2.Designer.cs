@@ -2,14 +2,16 @@
 using MOVIEW.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MOVIEW.Migrations
 {
     [DbContext(typeof(MoviewDbContext))]
-    partial class MoviewDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210910134102_v2")]
+    partial class v2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,15 +40,18 @@ namespace MOVIEW.Migrations
                     b.ToTable("Movies");
                 });
 
-            modelBuilder.Entity("MOVIEW.Models.Price", b =>
+            modelBuilder.Entity("MOVIEW.Models.Order_Db", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<string>("StrId")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(50);
 
-                    b.Property<string>("strMovieName")
+                    b.Property<string>("Movie_Id")
                         .IsRequired();
 
-                    b.HasKey("Id");
+                    b.Property<string>("customer_Id");
+
+                    b.HasKey("StrId");
 
                     b.ToTable("Order_Db");
                 });

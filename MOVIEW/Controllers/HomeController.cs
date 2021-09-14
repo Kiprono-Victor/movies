@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +27,31 @@ namespace MOVIEW.Controllers
         //[HttpGet]
         public async Task<IActionResult> Index([Optional] string search)
         {
+            {
+                //      POPULAR MOVIES
+                var client = new HttpClient();
+                var request_popular_movies = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Get,
+                    RequestUri = new Uri("https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=7e0768276e28e7e3f4136f2e524c7c7c"),
+                };
+                using (var response = await client.SendAsync(request_popular_movies))
+                {
+                    response.EnsureSuccessStatusCode();
+                    var body = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine(body);
+                    dynamic jsonObj = JsonConvert.DeserializeObject(body);
+
+                    ViewBag.popular_movies = jsonObj.results;
+
+                    ViewBag.image = "https://image.tmdb.org/t/p/w500";
+
+                }
+
+            }
+
+        
+
             if (search == null)
             {
                 var client = new HttpClient();
@@ -75,7 +101,7 @@ namespace MOVIEW.Controllers
                     var body = await response.Content.ReadAsStringAsync();
                     Console.WriteLine(body);
                     dynamic jsonObj = JsonConvert.DeserializeObject(body);
-                    
+
                     ViewBag.Json = jsonObj.Genres;
 
 
@@ -88,27 +114,76 @@ namespace MOVIEW.Controllers
         }
 
         // GET: Movies/Details/5
-        public IActionResult Details(string id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
+            string url;
+            string url2;
+        
             {
-                return NotFound();
+                //      POPULAR MOVIES
+                var client = new HttpClient();
+                var request_popular_movies = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Get,
+                    RequestUri = new Uri("https://api.themoviedb.org/3/movie/"+id+"?api_key=7e0768276e28e7e3f4136f2e524c7c7c&language=en-US"),
+                };
+                using (var response = await client.SendAsync(request_popular_movies))
+                {
+                    response.EnsureSuccessStatusCode();
+                    var body = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine(body);
+                    dynamic jsonObj = JsonConvert.DeserializeObject(body);
+
+                    ViewBag.Single_movie = jsonObj;
+
+                    ViewBag.image = "https://image.tmdb.org/t/p/w500";
+                     url = jsonObj.poster_path;
+                     url2 = jsonObj.backdrop_path;
+                    
+                        
+
+                }
+
             }
 
-            var movies =  _context.Movies
-                .FirstOrDefault(m => m.strId == id);
-            if (movies == null)
-            {
-                return NotFound();
-            }
 
-            return View(movies);
+
+           
+            ViewBag.image = "https://image.tmdb.org/t/p/w500/"+url;
+            ViewBag.backdrop_path = "https://image.tmdb.org/t/p/w500/"+url;
+
+            return View();
         }
+
+        private IActionResult View(Func<IActionResult> movieDetails)
+        {
+            throw new NotImplementedException();
+        }
+
         public IActionResult Privacy()
         {
             return View();
+        } public IActionResult Price()
+        {
+            return View();
+        }public IActionResult MoviewDashboard()
+        {
+            return View();
+        }
+        public IActionResult Movies()
+        {
+
+            return View();
         }
         public IActionResult Login()
+        {
+            return View();
+        } public IActionResult Add_To_Cart( string id)
+        {
+            return View();
+        }
+           public IActionResult MovieDetails(string id)
+            
         {
             return View();
         }
@@ -117,8 +192,8 @@ namespace MOVIEW.Controllers
         {
             if (user.Username == null || user.Password == null)
             {
-                TempData["emptyfields"] = "Please provide your Email and Password!";
-                return RedirectToAction("Login", "Home");
+               
+                TempData["emptyfields"] = "Please provide your Email and Password!";          return RedirectToAction("Login", "Home");
 
             }
             var pass = user.Username;
@@ -128,6 +203,8 @@ namespace MOVIEW.Controllers
             var userToken = TokenProvider.LoginUser(user.Username, user.Password);
             if (userToken == null)
             {
+                var find_id = _context.registers.FirstOrDefault(x => x.Username == user.Username && x.Password == user.Password);
+                HttpContext.Session.SetString("id", find_id.id.ToString());
                 TempData["wrong"] = "Invalid Login Attempt! Try again.";
                 return RedirectToAction("Login", "Home");
 
@@ -138,7 +215,7 @@ namespace MOVIEW.Controllers
             //     {
 
             //     }
-            return RedirectToAction("Create", "Movies");
+            return RedirectToAction("Index", "Home");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
